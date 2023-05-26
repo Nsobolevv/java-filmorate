@@ -18,6 +18,7 @@ class UserControllerTest {
     User userFailBirthday;
     User updateUser;
     User updateUserId9999;
+
     @BeforeEach
     public void setUp() {
         userController = new UserController();
@@ -60,7 +61,7 @@ class UserControllerTest {
     @Test
     void putUserWhenId9999() {
         User user = userController.createUser(userNormal);
-        assertThrows(ValidationException.class,()->userController.put(updateUserId9999));
+        assertThrows(ValidationException.class,() -> userController.put(updateUserId9999));
     }
 
     @Test

@@ -19,6 +19,7 @@ class FilmControllerTest {
     Film filmFailDuration;
     Film updateFilm;
     Film updateFilmId9999;
+
     @BeforeEach
     public void setUp() {
         filmController = new FilmController();
@@ -63,7 +64,7 @@ class FilmControllerTest {
     @Test
     void putFilmWhenId9999() {
         Film film = filmController.createFilm(filmNormal);
-        assertThrows(ValidationException.class,()->filmController.put(updateFilmId9999));
+        assertThrows(ValidationException.class,() -> filmController.put(updateFilmId9999));
     }
 
     @Test
