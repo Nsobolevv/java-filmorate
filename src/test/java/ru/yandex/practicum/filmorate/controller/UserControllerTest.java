@@ -19,7 +19,7 @@ class UserControllerTest {
     User updateUser;
     User updateUserId9999;
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         userController = new UserController();
         userNormal = new User(null,"aa@mail.ru","cole",null, LocalDate.of(1997, 12, 28));
         userFailLogin = new User(null,"aa@mail.ru","cole cole","niko", LocalDate.of(1997, 12, 28));
@@ -43,9 +43,9 @@ class UserControllerTest {
 
     @Test
     void createUserWhenUserFailLoginEmailBirthday() {
-        assertThrows(ValidationException.class,()->userController.createUser(userFailLogin));
-        assertThrows(ValidationException.class,()->userController.createUser(userFailEmail));
-        assertThrows(ValidationException.class,()->userController.createUser(userFailBirthday));
+        assertThrows(ValidationException.class,() -> userController.createUser(userFailLogin));
+        assertThrows(ValidationException.class,() -> userController.createUser(userFailEmail));
+        assertThrows(ValidationException.class,() -> userController.createUser(userFailBirthday));
     }
 
     @Test

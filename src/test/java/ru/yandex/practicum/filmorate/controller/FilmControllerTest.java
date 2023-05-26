@@ -20,7 +20,7 @@ class FilmControllerTest {
     Film updateFilm;
     Film updateFilmId9999;
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         filmController = new FilmController();
         filmNormal = new Film(null,"The Shining","description", LocalDate.of(1980, 05, 23),144);
         filmFailName = new Film(null,"","description", LocalDate.of(1980, 05, 23),144);
@@ -45,10 +45,10 @@ class FilmControllerTest {
 
     @Test
     void createFilmWhenFailNameDescriptionReleaseDateDuration() {
-        assertThrows(ValidationException.class,()->filmController.createFilm(filmFailName));
-        assertThrows(ValidationException.class,()->filmController.createFilm(filmFailDescription));
-        assertThrows(ValidationException.class,()->filmController.createFilm(filmFailReleaseDate));
-        assertThrows(ValidationException.class,()->filmController.createFilm(filmFailDuration));
+        assertThrows(ValidationException.class,() -> filmController.createFilm(filmFailName));
+        assertThrows(ValidationException.class,() -> filmController.createFilm(filmFailDescription));
+        assertThrows(ValidationException.class,() -> filmController.createFilm(filmFailReleaseDate));
+        assertThrows(ValidationException.class,() -> filmController.createFilm(filmFailDuration));
     }
 
     @Test
