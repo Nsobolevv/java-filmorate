@@ -16,7 +16,7 @@ import java.util.Map;
 public class FilmController {
     private final Map<Integer, Film> films = new HashMap<>();
     private Integer generatedId = 1;
-    LocalDate dateRestriction = LocalDate.of(1895, 12, 28);
+    private static final LocalDate dateRestriction = LocalDate.of(1895, 12, 28);
 
     @PostMapping
     public Film createFilm(@RequestBody Film film) {
