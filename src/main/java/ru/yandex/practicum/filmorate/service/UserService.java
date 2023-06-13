@@ -1,5 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.validation.ThrowableException;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -10,13 +12,13 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    User getUser(String id);
+    User getUser(Integer id);
 
-    void addFriend(String userId, String friendId);
+    void addFriend(Integer userId, Integer friendId) throws ThrowableException;
 
-    void deleteFriend(String userId, String friendId);
+    void deleteFriend(Integer userId, Integer friendId) throws ThrowableException;
 
-    Collection<User> getFriends(String id);
+    Collection<User> getFriends(Integer id);
 
-    Collection<User> getCommonFriends(String id, String otherId);
+    Collection<User> getCommonFriends(Integer id, Integer otherId);
 }

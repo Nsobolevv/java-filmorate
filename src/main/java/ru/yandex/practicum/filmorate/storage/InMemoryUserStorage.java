@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.storage;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.validation.NotFoundException;
+import ru.yandex.practicum.filmorate.validation.ThrowableException;
 
 
 import java.util.*;
@@ -40,9 +41,6 @@ public class InMemoryUserStorage implements UserStorage {
             users.put(newUser.getId(), newUser);
             return newUser;
         } else {
-            if (user.getFriends() == null) {
-                user.setFriends(new HashSet<>());
-            }
             users.put(user.getId(), user);
             return user;
         }
@@ -58,27 +56,34 @@ public class InMemoryUserStorage implements UserStorage {
         return users.get(id);
     }
 
-
     @Override
-    public boolean addFriend(int userId, int friendId) {
+    public boolean addFriend(int userId, int friendId) throws ThrowableException {
         User user = users.get(userId);
         User friend = users.get(friendId);
         user.addFriend(friendId);
         friend.addFriend(userId);
-        put(user);
-        put(friend);
-        return true;
+        if (user.getFriends().contains(friendId) && friend.getFriends().contains(userId)) {
+            put(user);
+            put(friend);
+            return true;
+        } else {
+            throw new ThrowableException("Не получилось добавить в друзья!");
+        }
     }
 
     @Override
-    public boolean deleteFriend(int userId, int friendId) {
+    public boolean deleteFriend(int userId, int friendId) throws ThrowableException {
         User user = users.get(userId);
         User friend = users.get(friendId);
         user.deleteFriend(friendId);
         friend.deleteFriend(userId);
-        put(user);
-        put(friend);
-        return false;
+        if (!user.getFriends().contains(friendId) && !friend.getFriends().contains(userId)) {
+            put(user);
+            put(friend);
+            return true;
+        } else {
+            throw new ThrowableException("Не получилось удалить из друзей!");
+        }
     }
 
 }

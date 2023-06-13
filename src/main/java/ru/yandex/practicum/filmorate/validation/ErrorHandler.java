@@ -21,8 +21,8 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleWrongIdException(final WrongIdException e) {
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleThrowableException(final ThrowableException e) {
         return new ErrorResponse(
                 e.getMessage()
         );

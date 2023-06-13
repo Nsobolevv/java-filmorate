@@ -21,7 +21,7 @@ public class Film {
     private final String description;
     private final LocalDate releaseDate;
     private final int duration;
-    private Set<Integer> likes;
+    private Set<Integer> likes = new HashSet<>();
 
     public Film(Integer id, String name, String description, LocalDate releaseDate, int duration) {
         this.id = id;
@@ -29,7 +29,6 @@ public class Film {
         this.description = description;
         this.releaseDate = releaseDate;
         this.duration = duration;
-        this.likes = new HashSet<>();
     }
 
     public boolean addLike(Integer userId) {

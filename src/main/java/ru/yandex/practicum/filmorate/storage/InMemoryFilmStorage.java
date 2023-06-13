@@ -3,8 +3,7 @@ package ru.yandex.practicum.filmorate.storage;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.validation.NotFoundException;
-
-
+import ru.yandex.practicum.filmorate.validation.ThrowableException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,9 +29,6 @@ public class InMemoryFilmStorage implements FilmStorage {
                     film.getId() + " не зарегистрирован!");
         }
         films.remove(film.getId());
-        if (film.getLikes() == null) {
-            film.setLikes(new HashSet<>());
-        }
         films.put(film.getId(), film);
         return film;
     }
@@ -48,27 +44,34 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public boolean addLike(int filmId, int userId) {
+    public boolean addLike(int filmId, int userId) throws ThrowableException {
         Film film = films.get(filmId);
         film.addLike(userId);
-        put(film);
-        return true;
+        if (film.getLikes().contains(userId)) {
+            put(film);
+            return true;
+        } else {
+            throw new ThrowableException("Не получилось добавить like фильму:" + film.getName());
+        }
     }
 
     @Override
-    public boolean deleteLike(int filmId, int userId) {
+    public boolean deleteLike(int filmId, int userId) throws ThrowableException {
         Film film = films.get(filmId);
         film.deleteLike(userId);
-        put(film);
-        return true;
+        if (!film.getLikes().contains(userId)) {
+            put(film);
+            return true;
+        } else {
+            throw new ThrowableException("Не получилось удалить like у фильма:" + film.getName());
+        }
     }
 
     @Override
     public Collection<Film> getMostPopularFilms(int size) {
-        Collection<Film> mostPopularFilms = getAllFilms().stream()
-                .sorted((f1, f2) -> f2.getLikes().size() - f1.getLikes().size())
+        return getAllFilms().stream()
+                .sorted((film1, film2) -> film2.getLikes().size() - film1.getLikes().size())
                 .limit(size)
                 .collect(Collectors.toCollection(HashSet::new));
-        return mostPopularFilms;
     }
 }

@@ -20,7 +20,7 @@ public class User {
     private final String login;
     private final String name;
     private final LocalDate birthday;
-    private Set<Integer> friends;
+    private Set<Integer> friends = new HashSet<>();
 
     public User(Integer id, String email, String login, String name, LocalDate birthday) {
         this.id = id;
@@ -28,7 +28,6 @@ public class User {
         this.login = login;
         this.name = name;
         this.birthday = birthday;
-        this.friends = new HashSet<>();
     }
 
     public boolean addFriend(final Integer id) {

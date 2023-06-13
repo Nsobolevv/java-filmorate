@@ -5,8 +5,9 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 import ru.yandex.practicum.filmorate.validation.NotFoundException;
+import ru.yandex.practicum.filmorate.validation.ThrowableException;
 import ru.yandex.practicum.filmorate.validation.ValidationException;
-import ru.yandex.practicum.filmorate.validation.WrongIdException;
+
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -41,27 +42,32 @@ public class InMemoryUserService implements UserService {
     }
 
     @Override
-    public User getUser(String id) {
-        return getStoredUser(id);
+    public User getUser(Integer id) {
+        User user = userStorage.getUser(id);
+        if (user == null) {
+            throw new NotFoundException("Пользователь с идентификатором " +
+                    id + " не зарегистрирован!");
+        }
+        return user;
     }
 
     @Override
-    public void addFriend(String userId, String friendId) {
-        User user = getStoredUser(userId);
-        User friend = getStoredUser(friendId);
+    public void addFriend(Integer userId, Integer friendId) throws ThrowableException {
+        User user = getUser(userId);
+        User friend = getUser(friendId);
         userStorage.addFriend(user.getId(), friend.getId());
     }
 
     @Override
-    public void deleteFriend(String userId, String friendId) {
-        User user = getStoredUser(userId);
-        User friend = getStoredUser(friendId);
+    public void deleteFriend(Integer userId, Integer friendId) throws ThrowableException {
+        User user = getUser(userId);
+        User friend = getUser(friendId);
         userStorage.deleteFriend(user.getId(), friend.getId());
     }
 
     @Override
-    public Collection<User> getFriends(String userId) {
-        User user = getStoredUser(userId);
+    public Collection<User> getFriends(Integer userId) {
+        User user = getUser(userId);
         Collection<User> friends = new HashSet<>();
         for (Integer id : user.getFriends()) {
             friends.add(userStorage.getUser(id));
@@ -70,9 +76,9 @@ public class InMemoryUserService implements UserService {
     }
 
     @Override
-    public Collection<User> getCommonFriends(String userId, String otherId) {
-        User user = getStoredUser(userId);
-        User otherUser = getStoredUser(otherId);
+    public Collection<User> getCommonFriends(Integer userId, Integer otherId) {
+        User user = getUser(userId);
+        User otherUser = getUser(otherId);
         Collection<User> commonFriends = new HashSet<>();
         for (Integer id : user.getFriends()) {
             if (otherUser.getFriends().contains(id)) {
@@ -80,28 +86,6 @@ public class InMemoryUserService implements UserService {
             }
         }
         return commonFriends;
-    }
-
-    private Integer idFromString(final String id) {
-        try {
-            return Integer.valueOf(id);
-        } catch (NumberFormatException exception) {
-            return Integer.MIN_VALUE;
-        }
-    }
-
-    private User getStoredUser(final String id) {
-        final int userId = idFromString(id);
-        if (userId == Integer.MIN_VALUE) {
-            throw new WrongIdException("Не удалось распознать идентификатор пользователя: " +
-                    "значение " + id);
-        }
-        User user = userStorage.getUser(userId);
-        if (user == null) {
-            throw new NotFoundException("Пользователь с идентификатором " +
-                    userId + " не зарегистрирован!");
-        }
-        return user;
     }
 
     private void isValid(User user) {

@@ -6,8 +6,9 @@ import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import ru.yandex.practicum.filmorate.validation.NotFoundException;
+import ru.yandex.practicum.filmorate.validation.ThrowableException;
 import ru.yandex.practicum.filmorate.validation.ValidationException;
-import ru.yandex.practicum.filmorate.validation.WrongIdException;
+
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -45,32 +46,35 @@ public class InMemoryFilmService implements FilmService {
     }
 
     @Override
-    public Film getFilm(String filmId) {
-        return getStoredFilm(filmId);
+    public Film getFilm(Integer filmId) {
+        Film film = filmStorage.getFilm(filmId);
+        if (film == null) {
+            throw new NotFoundException("Фильм с идентификатором " +
+                    filmId + " не зарегистрирован!");
+        }
+        return film;
     }
 
-
     @Override
-    public void addLike(String id, String userId) {
-        Film film = getStoredFilm(id);
+    public void addLike(Integer id, Integer userId) throws ThrowableException {
+        Film film = getFilm(id);
         User user = userService.getUser(userId);
         filmStorage.addLike(film.getId(), user.getId());
     }
 
     @Override
-    public void deleteLike(String id, String userId) {
-        Film film = getStoredFilm(id);
+    public void deleteLike(Integer id, Integer userId) throws ThrowableException {
+        Film film = getFilm(id);
         User user = userService.getUser(userId);
         filmStorage.deleteLike(film.getId(), user.getId());
     }
 
     @Override
-    public Collection<Film> getMostPopularFilms(String count) {
-        Integer size = intFromString(count);
-        if (size == Integer.MIN_VALUE) {
-            size = 10;
+    public Collection<Film> getMostPopularFilms(Integer count) {
+        if (count == Integer.MIN_VALUE) {
+            count = 10;
         }
-        return filmStorage.getMostPopularFilms(size);
+        return filmStorage.getMostPopularFilms(count);
     }
 
     private Integer intFromString(final String supposedInt) {
@@ -79,20 +83,6 @@ public class InMemoryFilmService implements FilmService {
         } catch (NumberFormatException exception) {
             return Integer.MIN_VALUE;
         }
-    }
-
-    private Film getStoredFilm(final String supposedId) {
-        final int filmId = intFromString(supposedId);
-        if (filmId == Integer.MIN_VALUE) {
-            throw new WrongIdException("Не удалось распознать идентификатор фильма: " +
-                    "значение " + supposedId);
-        }
-        Film film = filmStorage.getFilm(filmId);
-        if (film == null) {
-            throw new NotFoundException("Фильм с идентификатором " +
-                    filmId + " не зарегистрирован!");
-        }
-        return film;
     }
 
     private void isValid(Film film) {
