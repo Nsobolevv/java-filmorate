@@ -1,14 +1,11 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
-import ru.yandex.practicum.filmorate.validation.NotFoundException;
-import ru.yandex.practicum.filmorate.validation.ThrowableException;
 import ru.yandex.practicum.filmorate.validation.ValidationException;
-
-
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
@@ -16,13 +13,9 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class InMemoryUserService implements UserService {
     private final UserStorage userStorage;
-
-    public InMemoryUserService(UserStorage userStorage) {
-        this.userStorage = userStorage;
-    }
-
 
     @Override
     public User createUser(User user) {
@@ -43,23 +36,18 @@ public class InMemoryUserService implements UserService {
 
     @Override
     public User getUser(Integer id) {
-        User user = userStorage.getUser(id);
-        if (user == null) {
-            throw new NotFoundException("Пользователь с идентификатором " +
-                    id + " не зарегистрирован!");
-        }
-        return user;
+        return userStorage.getUser(id);
     }
 
     @Override
-    public void addFriend(Integer userId, Integer friendId) throws ThrowableException {
+    public void addFriend(Integer userId, Integer friendId) {
         User user = getUser(userId);
         User friend = getUser(friendId);
         userStorage.addFriend(user.getId(), friend.getId());
     }
 
     @Override
-    public void deleteFriend(Integer userId, Integer friendId) throws ThrowableException {
+    public void deleteFriend(Integer userId, Integer friendId) {
         User user = getUser(userId);
         User friend = getUser(friendId);
         userStorage.deleteFriend(user.getId(), friend.getId());

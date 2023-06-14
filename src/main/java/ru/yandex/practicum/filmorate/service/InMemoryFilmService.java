@@ -1,32 +1,24 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
-import ru.yandex.practicum.filmorate.validation.NotFoundException;
-import ru.yandex.practicum.filmorate.validation.ThrowableException;
 import ru.yandex.practicum.filmorate.validation.ValidationException;
-
-
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class InMemoryFilmService implements FilmService {
     private static final LocalDate dateRestriction = LocalDate.of(1895, 12, 28);
 
     private final FilmStorage filmStorage;
     private final UserService userService;
-
-    public InMemoryFilmService(FilmStorage filmStorage, UserService userService) {
-        this.filmStorage = filmStorage;
-        this.userService = userService;
-    }
-
 
     @Override
     public Film createFilm(Film film) {
@@ -47,23 +39,18 @@ public class InMemoryFilmService implements FilmService {
 
     @Override
     public Film getFilm(Integer filmId) {
-        Film film = filmStorage.getFilm(filmId);
-        if (film == null) {
-            throw new NotFoundException("Фильм с идентификатором " +
-                    filmId + " не зарегистрирован!");
-        }
-        return film;
+        return filmStorage.getFilm(filmId);
     }
 
     @Override
-    public void addLike(Integer id, Integer userId) throws ThrowableException {
+    public void addLike(Integer id, Integer userId) {
         Film film = getFilm(id);
         User user = userService.getUser(userId);
         filmStorage.addLike(film.getId(), user.getId());
     }
 
     @Override
-    public void deleteLike(Integer id, Integer userId) throws ThrowableException {
+    public void deleteLike(Integer id, Integer userId) {
         Film film = getFilm(id);
         User user = userService.getUser(userId);
         filmStorage.deleteLike(film.getId(), user.getId());
@@ -71,18 +58,7 @@ public class InMemoryFilmService implements FilmService {
 
     @Override
     public Collection<Film> getMostPopularFilms(Integer count) {
-        if (count == Integer.MIN_VALUE) {
-            count = 10;
-        }
         return filmStorage.getMostPopularFilms(count);
-    }
-
-    private Integer intFromString(final String supposedInt) {
-        try {
-            return Integer.valueOf(supposedInt);
-        } catch (NumberFormatException exception) {
-            return Integer.MIN_VALUE;
-        }
     }
 
     private void isValid(Film film) {

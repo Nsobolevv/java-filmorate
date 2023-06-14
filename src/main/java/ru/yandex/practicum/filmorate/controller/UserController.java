@@ -4,11 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.service.UserService;
-
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.validation.ThrowableException;
-
-
 import java.util.*;
 
 @RestController
@@ -45,16 +41,15 @@ public class UserController {
     }
 
     @PutMapping("/{id}/friends/{friendId}")
-    public void addFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer friendId) throws ThrowableException {
+    public void addFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer friendId) {
         log.info("Получен запрос PUT к эндпоинту: /users/{}/friends/{}", id, friendId);
-        //final User validUser = userService.update(user);
         userService.addFriend(id,friendId);
         log.info("Обновлен объект {} с идентификатором {}. Добавлен друг {}",
                 User.class.getSimpleName(), id, friendId);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
-    public void deleteFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer friendId) throws ThrowableException {
+    public void deleteFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer friendId) {
         log.info("Получен запрос DELETE к эндпоинту: /users/{}/friends/{}", id, friendId);
         userService.deleteFriend(id,friendId);
         log.info("Обновлен объект {} с идентификатором {}. Удален друг {}",

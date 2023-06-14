@@ -1,8 +1,6 @@
 package ru.yandex.practicum.filmorate.service;
 
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.validation.ThrowableException;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -15,9 +13,9 @@ public interface FilmService {
 
     Film getFilm(Integer filmId);
 
-    void addLike(Integer filmId, Integer userId) throws ThrowableException;
+    void addLike(Integer filmId, Integer userId);
 
-    void deleteLike(Integer filmId, Integer userId) throws ThrowableException;
+    void deleteLike(Integer filmId, Integer userId);
 
     Collection<Film> getMostPopularFilms(Integer count);
 }

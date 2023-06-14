@@ -4,11 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.service.FilmService;
-
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.validation.ThrowableException;
-
-
 import java.util.*;
 
 @RestController
@@ -51,7 +47,7 @@ public class FilmController {
     }
 
     @PutMapping("/{id}/like/{userId}")
-    public void putLike(@PathVariable("id") Integer id, @PathVariable("userId") Integer userId) throws ThrowableException {
+    public void putLike(@PathVariable("id") Integer id, @PathVariable("userId") Integer userId) {
         log.info("Получен запрос PUT к эндпоинту: /films/{}/like/{}", id, userId);
         filmService.addLike(id, userId);
         log.info("Обновлен объект {} с идентификатором {}, добавлен лайк от пользователя {}",
@@ -59,12 +55,11 @@ public class FilmController {
     }
 
     @DeleteMapping("/{id}/like/{userId}")
-    public void deleteLike(@PathVariable("id") Integer id, @PathVariable("userId") Integer userId) throws ThrowableException {
+    public void deleteLike(@PathVariable("id") Integer id, @PathVariable("userId") Integer userId) {
         log.info("Получен запрос DELETE к эндпоинту: films/{}/like/{}", id, userId);
         filmService.deleteLike(id, userId);
         log.info("Обновлен объект {} с идентификатором {}, удален лайк от пользователя {}",
                 Film.class.getSimpleName(), id, userId);
-
     }
 
 }

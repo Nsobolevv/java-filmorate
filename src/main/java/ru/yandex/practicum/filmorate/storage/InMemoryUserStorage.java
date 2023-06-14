@@ -3,9 +3,6 @@ package ru.yandex.practicum.filmorate.storage;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.validation.NotFoundException;
-import ru.yandex.practicum.filmorate.validation.ThrowableException;
-
-
 import java.util.*;
 
 @Component
@@ -53,37 +50,29 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User getUser(Integer id) {
-        return users.get(id);
+        User user = users.get(id);
+        if (user == null) {
+            throw new NotFoundException("Пользователь с идентификатором " +
+                    id + " не зарегистрирован!");
+        }
+        return user;
     }
 
     @Override
-    public boolean addFriend(int userId, int friendId) throws ThrowableException {
+    public void addFriend(int userId, int friendId) {
         User user = users.get(userId);
         User friend = users.get(friendId);
         user.addFriend(friendId);
         friend.addFriend(userId);
-        if (user.getFriends().contains(friendId) && friend.getFriends().contains(userId)) {
-            put(user);
-            put(friend);
-            return true;
-        } else {
-            throw new ThrowableException("Не получилось добавить в друзья!");
-        }
     }
 
     @Override
-    public boolean deleteFriend(int userId, int friendId) throws ThrowableException {
+    public void deleteFriend(int userId, int friendId) {
         User user = users.get(userId);
         User friend = users.get(friendId);
         user.deleteFriend(friendId);
         friend.deleteFriend(userId);
-        if (!user.getFriends().contains(friendId) && !friend.getFriends().contains(userId)) {
-            put(user);
-            put(friend);
-            return true;
-        } else {
-            throw new ThrowableException("Не получилось удалить из друзей!");
-        }
+
     }
 
 }
