@@ -64,11 +64,14 @@ public class InMemoryFilmService implements FilmService {
     private void isValid(Film film) {
         if (film.getName() == null || film.getName().isBlank()) {
             throw new ValidationException("название не может быть пустым");
-        } else if (film.getDescription().length() > 200) {
+        }
+        if (film.getDescription().length() > 200) {
             throw new ValidationException("максимальная длина описания — 200 символов");
-        } else if (film.getReleaseDate().isBefore(dateRestriction)) {
+        }
+        if (film.getReleaseDate().isBefore(dateRestriction)) {
             throw new ValidationException("дата релиза — не раньше 28 декабря 1895 года");
-        } else if (film.getDuration() <= 0) {
+        }
+        if (film.getDuration() <= 0) {
             throw new ValidationException("продолжительность фильма должна быть положительной");
         }
     }

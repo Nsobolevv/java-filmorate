@@ -79,9 +79,11 @@ public class InMemoryUserService implements UserService {
     private void isValid(User user) {
         if (user.getEmail() == null || user.getEmail().isBlank() || !user.getEmail().contains("@")) {
             throw new ValidationException("электронная почта не может быть пустой и должна содержать символ @");
-        } else if (user.getLogin() == null || user.getLogin().isBlank() || user.getLogin().contains(" ")) {
+        }
+        if (user.getLogin() == null || user.getLogin().isBlank() || user.getLogin().contains(" ")) {
             throw new ValidationException("логин не может быть пустым и содержать пробелы");
-        } else if (LocalDate.now().isBefore(user.getBirthday())) {
+        }
+        if (LocalDate.now().isBefore(user.getBirthday())) {
             throw new ValidationException("дата рождения не может быть в будущем");
         }
     }
