@@ -52,3 +52,36 @@ Ref: user_friends.user_id > user.id
 Ref: user_friends.friend_id > user.id
 Ref: film.mpa - mpa.id
 ```
+получение всех фильмов 
+SELECT*
+FROM FILM
+
+Получение фильма по id 1 
+SELECT* 
+FROM FILm
+WHERE ID = 1;
+
+получение фильмов, отсортированных по количеству лайков 
+SELECT COUNT(L.ID) as likeRate,
+FILM.ID,FILM.NAME,FILM.DESCRIPTION,RELEASEDATE,DURATION,MPA,R.ID,R.NAME
+FROM FILM
+LEFT JOIN LIKES L on L.FILM_ID = FILM.ID
+INNER JOIN MPA R ON R.ID = FILM.MPA
+GROUP BY FILM.ID
+ORDER BY likeRate desc;
+
+
+Получение пользлователя по id 1 
+SELECT* 
+FROM USER
+WHERE ID = 1
+
+получение всех пользователей 
+SELECT* 
+FROM USER
+
+получение всех друзей пользователя c id 1 
+SELECT FRIEND_ID 
+FROM USER_FRIENDS 
+WHERE ID = 1
+
