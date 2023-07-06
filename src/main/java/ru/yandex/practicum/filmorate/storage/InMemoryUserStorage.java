@@ -19,7 +19,7 @@ public class InMemoryUserStorage implements UserStorage {
             return newUser;
         } else {
             user.setId(generatedId++);
-            user.setFriends(new HashSet<>());
+            user.setFriends(new ArrayList<>());
             users.put(user.getId(), user);
             return user;
         }

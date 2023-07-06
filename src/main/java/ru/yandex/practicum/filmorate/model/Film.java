@@ -5,8 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
@@ -16,11 +16,14 @@ import java.util.Set;
 public class Film {
     @EqualsAndHashCode.Exclude
     private Integer id;
-    private final String name;
+    private String name;
     private final String description;
     private final LocalDate releaseDate;
     private final int duration;
-    private Set<Integer> likes = new HashSet<>();
+    private int rate;
+    private Mpa mpa;
+    private List<Genre> genres = new ArrayList<>();
+    private List<Integer> likes = new ArrayList<>();
 
     public Film(Integer id, String name, String description, LocalDate releaseDate, int duration) {
         this.id = id;

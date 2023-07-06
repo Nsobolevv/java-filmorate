@@ -1,7 +1,9 @@
 package ru.yandex.practicum.filmorate.service;
 
-import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
@@ -13,12 +15,17 @@ import java.util.List;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class InMemoryFilmService implements FilmService {
     private static final LocalDate dateRestriction = LocalDate.of(1895, 12, 28);
 
     private final FilmStorage filmStorage;
     private final UserService userService;
+
+    @Autowired
+    public InMemoryFilmService(@Qualifier("DBFilmStorage") FilmStorage filmStorage, @Autowired(required = false) UserService userService) {
+        this.filmStorage = filmStorage;
+        this.userService = userService;
+    }
 
     @Override
     public Film createFilm(Film film) {

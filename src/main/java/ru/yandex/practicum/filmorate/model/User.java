@@ -2,9 +2,8 @@ package ru.yandex.practicum.filmorate.model;
 
 import lombok.*;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode
@@ -18,7 +17,7 @@ public class User {
     private final String login;
     private final String name;
     private final LocalDate birthday;
-    private Set<Integer> friends = new HashSet<>();
+    private List<Integer> friends = new ArrayList<>();
 
     public User(Integer id, String email, String login, String name, LocalDate birthday) {
         this.id = id;
