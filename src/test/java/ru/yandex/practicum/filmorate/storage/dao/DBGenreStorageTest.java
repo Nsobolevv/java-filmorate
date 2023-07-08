@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class DBGenreStorageTest {
-    private final DBGenreStorage dbGenreStorage;
+    final DBGenreStorage dbGenreStorage;
 
     @Test
     public void testGetGenreById() {

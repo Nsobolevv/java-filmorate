@@ -18,11 +18,6 @@ import java.util.Collection;
 public class GenreController {
     private final GenreService genreService;
 
-   //@Autowired(required = false)
-   //public GenreController(GenreService genreService) {
-   //    this.genreService = genreService;
-   //}
-
     @GetMapping
     public Collection<Genre> findAll() {
         log.info("Получен запрос GET к эндпоинту: /genres");
@@ -30,7 +25,7 @@ public class GenreController {
     }
 
     @GetMapping("/{id}")
-    public Genre findGenre(@PathVariable String id) {
+    public Genre findGenre(@PathVariable Integer id) {
         log.info("Получен запрос GET к эндпоинту: /genres/{}", id);
         return genreService.getGenre(id);
     }

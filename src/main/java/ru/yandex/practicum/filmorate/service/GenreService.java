@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.GenreStorage;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -26,9 +25,9 @@ public class GenreService {
         return genreStorage.getGenresByFilmId(filmId);
     }
 
-    public Genre getGenre(String supposedId) {
-        int genreId = intFromString(supposedId);
-        return genreStorage.getGenreById(genreId);
+    public Genre getGenre(Integer supposedId) {
+       // int genreId = intFromString(supposedId);
+        return genreStorage.getGenreById(supposedId);
     }
 
     public void deleteFilmGenres(int filmId) {
@@ -37,13 +36,5 @@ public class GenreService {
 
     public void addFilmGenres(int filmId, List<Genre> genres) {
         genreStorage.addFilmGenres(filmId, genres);
-    }
-
-    private Integer intFromString(final String supposedInt) {
-        try {
-            return Integer.valueOf(supposedInt);
-        } catch (NumberFormatException exception) {
-            return Integer.MIN_VALUE;
-        }
     }
 }

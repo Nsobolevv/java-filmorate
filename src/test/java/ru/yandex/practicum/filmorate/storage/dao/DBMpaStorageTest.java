@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class DBMpaStorageTest {
-    private final DBMpaStorage dbMpaStorage;
+    final DBMpaStorage dbMpaStorage;
 
     @Test
     public void testGetMpaById() {

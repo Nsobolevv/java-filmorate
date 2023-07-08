@@ -22,7 +22,7 @@ public class InMemoryFilmService implements FilmService {
     private final UserService userService;
 
     @Autowired
-    public InMemoryFilmService(@Qualifier("DBFilmStorage") FilmStorage filmStorage, @Autowired(required = false) UserService userService) {
+    public InMemoryFilmService(@Qualifier("DBFilmStorage") FilmStorage filmStorage, UserService userService) {
         this.filmStorage = filmStorage;
         this.userService = userService;
     }

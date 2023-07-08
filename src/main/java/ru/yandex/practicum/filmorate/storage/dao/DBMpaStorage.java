@@ -42,7 +42,4 @@ public class DBMpaStorage implements MpaStorage {
         }
         return mpa;
     }
-
-
-
 }

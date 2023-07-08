@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor(force = true)

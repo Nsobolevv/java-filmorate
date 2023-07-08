@@ -109,5 +109,4 @@ public class DBUserStorage implements UserStorage {
                 "where USERID = ? and FRIENDID = ?";
         jdbcTemplate.update(sqlSetStatus, friendId, userId);
     }
-
 }

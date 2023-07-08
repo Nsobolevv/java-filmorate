@@ -17,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class DBUserStorageTest {
-    private final DBUserStorage dbUserStorage;
-    private User user1;
-    private User user2;
-    private User user3;
+    final DBUserStorage dbUserStorage;
+    User user1;
+    User user2;
+    User user3;
 
     @BeforeEach
     public void beforeEach() {

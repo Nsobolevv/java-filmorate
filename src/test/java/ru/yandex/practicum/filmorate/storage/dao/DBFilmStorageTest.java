@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class DBFilmStorageTest {
 
-    private final DBFilmStorage filmStorage;
+    final DBFilmStorage filmStorage;
 
     @Test
     public void testGetFilmById() {
