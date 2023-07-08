@@ -10,7 +10,6 @@ import java.util.List;
 
 
 @Data
-@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 public class Film {

@@ -18,7 +18,6 @@ public class MpaService {
     }
 
     public Mpa getMpa(Integer supposedId) {
-        //int id = intFromString(supposedId);
         return mpaStorage.getMpaById(supposedId);
     }
 }

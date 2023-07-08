@@ -7,7 +7,6 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
 @NoArgsConstructor(force = true)
 public class User {
     @EqualsAndHashCode.Exclude

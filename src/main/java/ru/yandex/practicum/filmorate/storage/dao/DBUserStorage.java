@@ -15,9 +15,13 @@ import java.util.*;
 @Component("DBUserStorage")
 public class DBUserStorage implements UserStorage {
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
     public DBUserStorage(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource())
+                .withTableName("USERS")
+                .usingGeneratedKeyColumns("UserID");
     }
 
     @Override
@@ -41,9 +45,6 @@ public class DBUserStorage implements UserStorage {
 
     @Override
     public User createUser(User user) {
-        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource())
-                .withTableName("USERS")
-                .usingGeneratedKeyColumns("UserID");
         if (user.getName() == null || user.getName().isBlank()) {
             Map<String, String> params = Map.of("Login", user.getLogin(),"Name", user.getLogin(), "Email", user.getEmail(),"Birthday", user.getBirthday().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             Number id = simpleJdbcInsert.executeAndReturnKey(params);

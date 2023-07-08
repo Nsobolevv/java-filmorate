@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.UserStorage;
 import ru.yandex.practicum.filmorate.validation.ValidationException;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -19,12 +20,12 @@ public class InMemoryFilmService implements FilmService {
     private static final LocalDate dateRestriction = LocalDate.of(1895, 12, 28);
 
     private final FilmStorage filmStorage;
-    private final UserService userService;
+    private final UserStorage userStorage;
 
     @Autowired
-    public InMemoryFilmService(@Qualifier("DBFilmStorage") FilmStorage filmStorage, UserService userService) {
+    public InMemoryFilmService(@Qualifier("DBFilmStorage") FilmStorage filmStorage, @Qualifier("DBUserStorage") UserStorage userStorage) {
         this.filmStorage = filmStorage;
-        this.userService = userService;
+        this.userStorage = userStorage;
     }
 
     @Override
@@ -52,14 +53,14 @@ public class InMemoryFilmService implements FilmService {
     @Override
     public void addLike(Integer id, Integer userId) {
         Film film = getFilm(id);
-        User user = userService.getUser(userId);
+        User user = userStorage.getUser(userId);
         filmStorage.addLike(film.getId(), user.getId());
     }
 
     @Override
     public void deleteLike(Integer id, Integer userId) {
         Film film = getFilm(id);
-        User user = userService.getUser(userId);
+        User user = userStorage.getUser(userId);
         filmStorage.deleteLike(film.getId(), user.getId());
     }
 

@@ -26,7 +26,6 @@ public class GenreService {
     }
 
     public Genre getGenre(Integer supposedId) {
-       // int genreId = intFromString(supposedId);
         return genreStorage.getGenreById(supposedId);
     }
 
