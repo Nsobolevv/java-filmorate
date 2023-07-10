@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.service.InMemoryFilmService;
-import ru.yandex.practicum.filmorate.service.InMemoryUserService;
 import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.validation.NotFoundException;
@@ -21,7 +20,7 @@ class FilmControllerTest {
 
     @BeforeEach
     void setUp() {
-        inMemoryFilmService = new InMemoryFilmService(new InMemoryFilmStorage(),new InMemoryUserService(new InMemoryUserStorage()));
+        inMemoryFilmService = new InMemoryFilmService(new InMemoryFilmStorage(),new InMemoryUserStorage());
     }
 
     @Test
